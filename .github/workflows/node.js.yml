@@ -26,4 +26,18 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install
-    - run: npm run cypress:run:dash
+
+    - name: Cypress run
+      uses: cypress-io/github-action@v2.8.2
+      with:
+        record:  true
+        group: 'Cypress Basic'
+      env:
+        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        
+    - name: Upload Videos
+      uses: actions/upload-artifact@v2.2.0
+      if: always()
+      with:
+        name: videos
+        path: cypress/videos
